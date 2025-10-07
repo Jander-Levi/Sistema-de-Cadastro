@@ -65,7 +65,7 @@ O sistema está em **fase de implementação**, com novas funcionalidades sendo 
 ├── index.html         # Página principal com todo o código do sistema
 ├── README.md          # Este arquivo
 └── (scripts embutidos no HTML)
-
+```
 ---
 
 ## 🔮 Futuras Implementações
