@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Cadastro - Marketing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-900 min-h-screen transition-colors duration-200">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">
+            Sistema de Cadastro - Marketing
+        </h1>
+
+        <!-- Formulário de Cadastro -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-6">
+                Novo Registro
+            </h2>
+            
+            <form id="cadastroForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Data
+                    </label>
+                    <input 
+                        type="date" 
+                        id="data" 
+                        required
+                        class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    >
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        1º Disparo <span class="text-gray-400 text-xs">(opcional)</span>
+                    </label>
+                    <input 
+                        type="time" 
+                        id="horaInicio" 
+                        class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                        placeholder="Horário do primeiro disparo (opcional)"
+                    >
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        2º Disparo <span class="text-gray-400 text-xs">(opcional)</span>
+                    </label>
+                    <input 
+                        type="time" 
+                        id="horaFim" 
+                        class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                        placeholder="Horário do segundo disparo (opcional)"
+                    >
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Disparo <span class="text-gray-400 text-xs">(opcional)</span>
+                    </label>
+                    <input 
+                        type="number" 
+                        id="disparo" 
+                        min="0"
+                        class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                        placeholder="Quantidade de disparos (opcional)"
+                    >
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Efetivo
+                    </label>
+                    <input 
+                        type="number" 
+                        id="efetivo" 
+                        required
+                        min="0"
+                        class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                        placeholder="Quantidade efetiva"
+                    >
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Retorno (Qtd) <span class="text-gray-400 text-xs">(opcional)</span>
+                    </label>
+                    <input 
+                        type="number" 
+                        id="retorno" 
+                        min="0"
+                        class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                        placeholder="Quantidade de retornos (opcional)"
+                    >
+                </div>
+
+                <div class="md:col-span-2 lg:col-span-3">
+                    <button 
+                        type="submit" 
+                        class="w-full md:w-auto px-6 py-3 bg-primary text-white font-medium rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors duration-200"
+                    >
+                        Cadastrar Registro
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Informações do Dólar -->
+        <div class="bg-blue-50 dark:bg-blue-900 rounded-lg p-4 mb-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-blue-700 dark:text-blue-300">Cotação do Dólar Hoje</p>
+                    <p id="valorDolar" class="text-lg font-semibold text-blue-800 dark:text-blue-200">
+                        Carregando...
+                    </p>
+                </div>
+                <button 
+                    onclick="atualizarDolar()" 
+                    class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors duration-200"
+                >
+                    Atualizar
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabela de Registros -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
+                    Registros Cadastrados
+                </h3>
+                <button 
+                    onclick="exportarParaExcel()"
+                    class="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors duration-200 flex items-center space-x-2"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <span>Exportar Excel</span>
+                </button>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Data</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Disparos</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Disparo</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Efetivo</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Retorno</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Retorno %</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Dólar (R$)</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Custo (R$)</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaRegistros" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                        <!-- Registros serão inseridos aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Estado vazio -->
+        <div id="estadoVazio" class="text-center py-12">
+            <div class="text-gray-400 dark:text-gray-500 mb-4">
+                <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+            </div>
+            <p class="text-gray-500 dark:text-gray-400">Nenhum registro cadastrado ainda</p>
+        </div>
+    </div>
+
+    <!-- Modal de confirmação customizada -->
+    <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full mx-4">
+            <p id="confirmMessage" class="text-gray-700 dark:text-gray-300 mb-4"></p>
+            <div class="flex justify-end space-x-3">
+                <button 
+                    id="confirmCancel"
+                    class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors duration-200"
+                >
+                    Cancelar
+                </button>
+                <button 
+                    id="confirmDelete"
+                    class="px-4 py-2 bg-red-500 text-white hover:bg-red-600 rounded transition-colors duration-200"
+                >
+                    Excluir
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuração para dark mode
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        // Variáveis globais
+        let registros = [];
+        let valorDolarAtual = 0;
+        const templateMarketing = 0.0625;
+        let editandoIndex = -1; // -1 significa que não está editando
+
+        // Funções de localStorage
+        function salvarRegistros() {
+            localStorage.setItem('registrosMarketing', JSON.stringify(registros));
+        }
+
+        function carregarRegistros() {
+            const dados = localStorage.getItem('registrosMarketing');
+            if (dados) {
+                registros = JSON.parse(dados);
+                renderizarTabela();
+            }
+        }
+
+        // Função para buscar cotação do dólar com múltiplas APIs de fallback
+        async function atualizarDolar() {
+            const valorDolarEl = document.getElementById('valorDolar');
+            valorDolarEl.textContent = 'Carregando...';
+            
+            // Lista de APIs para tentar em ordem
+            const apis = [
+                {
+                    name: 'AwesomeAPI',
+                    url: 'https://api.awesomeapi.com.br/json/last/USD-BRL',
+                    parse: (data) => parseFloat(data.USDBRL.bid)
+                },
+                {
+                    name: 'ExchangeRate-API',
+                    url: 'https://api.exchangerate-api.com/v4/latest/USD',
+                    parse: (data) => data.rates.BRL
+                },
+                {
+                    name: 'Fixer.io (demo)',
+                    url: 'https://api.fixer.io/latest?access_key=demo&base=USD&symbols=BRL',
+                    parse: (data) => data.rates?.BRL || null
+                }
+            ];
+            
+            for (const api of apis) {
+                try {
+                    console.log(`Tentando API: ${api.name}`);
+                    const response = await fetch(api.url);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    const valor = api.parse(data);
+                    
+                    if (valor && !isNaN(valor) && valor > 0) {
+                        valorDolarAtual = valor;
+                        valorDolarEl.textContent = `R$ ${valorDolarAtual.toFixed(4).replace('.', ',')}`;
+                        valorDolarEl.classList.remove('text-red-600');
+                        console.log(`Sucesso com ${api.name}: R$ ${valorDolarAtual.toFixed(4)}`);
+                        return; // Sucesso, sair do loop
+                    }
+                } catch (error) {
+                    console.error(`Erro na API ${api.name}:`, error);
+                    continue; // Tentar próxima API
+                }
+            }
+            
+            // Se chegou aqui, todas as APIs falharam
+            console.error('Todas as APIs de cotação falharam');
+            valorDolarAtual = 5.50; // Valor padrão aproximado
+            valorDolarEl.textContent = `R$ ${valorDolarAtual.toFixed(4).replace('.', ',')} (aprox.)`;
+            valorDolarEl.classList.add('text-red-600');
+            
+            // Mostrar notificação de erro
+            mostrarNotificacao('Não foi possível obter a cotação atual. Usando valor aproximado.', 'warning');
+        }
+
+        // Função para calcular retorno percentual
+        function calcularRetornoPercentual(efetivo, retorno) {
+            if (efetivo === 0) return 0;
+            return ((retorno / efetivo) * 100);
+        }
+
+        // Função para calcular custo
+        function calcularCusto(efetivo, dolar) {
+            return efetivo * templateMarketing * dolar;
+        }
+
+        // Função para formatar data
+        function formatarData(data) {
+            const [ano, mes, dia] = data.split('-');
+            return `${dia}/${mes}/${ano}`;
+        }
+
+        // Função para mostrar notificações
+        function mostrarNotificacao(message, type = 'info') {
+            const notification = document.createElement('div');
+            const bgColor = type === 'warning' ? 'bg-yellow-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+            
+            notification.className = `fixed top-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Animar entrada
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Remover após 5 segundos
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 5000);
+        }
+
+        // Função para mostrar modal de confirmação
+        function showConfirmDialog(message, onConfirm) {
+            const modal = document.getElementById('confirmModal');
+            const messageEl = document.getElementById('confirmMessage');
+            const cancelBtn = document.getElementById('confirmCancel');
+            const deleteBtn = document.getElementById('confirmDelete');
+            
+            messageEl.textContent = message;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            const handleCancel = () => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                cancelBtn.removeEventListener('click', handleCancel);
+                deleteBtn.removeEventListener('click', handleConfirm);
+            };
+            
+            const handleConfirm = () => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                onConfirm();
+                cancelBtn.removeEventListener('click', handleCancel);
+                deleteBtn.removeEventListener('click', handleConfirm);
+            };
+            
+            cancelBtn.addEventListener('click', handleCancel);
+            deleteBtn.addEventListener('click', handleConfirm);
+        }
+
+        // Função para editar registro
+        function editarRegistro(index) {
+            const registro = registros[index];
+            
+            // Preencher o formulário com os dados do registro
+            document.getElementById('data').value = registro.data;
+            document.getElementById('horaInicio').value = registro.horaInicio;
+            document.getElementById('horaFim').value = registro.horaFim;
+            document.getElementById('disparo').value = registro.disparo || '';
+            document.getElementById('efetivo').value = registro.efetivo;
+            document.getElementById('retorno').value = registro.retorno || '';
+            
+            // Marcar que estamos editando
+            editandoIndex = index;
+            
+            // Atualizar o título e botão do formulário
+            document.querySelector('h2').textContent = 'Editando Registro';
+            document.querySelector('button[type="submit"]').textContent = 'Atualizar Registro';
+            document.querySelector('button[type="submit"]').classList.remove('bg-primary');
+            document.querySelector('button[type="submit"]').classList.add('bg-orange-500', 'hover:bg-orange-600');
+            
+            // Adicionar botão de cancelar edição
+            const submitBtn = document.querySelector('button[type="submit"]');
+            if (!document.getElementById('cancelarEdicao')) {
+                const cancelBtn = document.createElement('button');
+                cancelBtn.type = 'button';
+                cancelBtn.id = 'cancelarEdicao';
+                cancelBtn.textContent = 'Cancelar';
+                cancelBtn.className = 'ml-3 px-6 py-3 bg-gray-500 text-white font-medium rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors duration-200';
+                cancelBtn.onclick = cancelarEdicao;
+                submitBtn.parentNode.insertBefore(cancelBtn, submitBtn.nextSibling);
+            }
+            
+            // Scroll para o formulário
+            document.querySelector('.bg-white.dark\\:bg-gray-800').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Função para cancelar edição
+        function cancelarEdicao() {
+            editandoIndex = -1;
+            
+            // Limpar formulário
+            document.getElementById('cadastroForm').reset();
+            document.getElementById('data').value = new Date().toISOString().split('T')[0];
+            
+            // Restaurar título e botão
+            document.querySelector('h2').textContent = 'Novo Registro';
+            const submitBtn = document.querySelector('button[type="submit"]');
+            submitBtn.textContent = 'Cadastrar Registro';
+            submitBtn.classList.remove('bg-orange-500', 'hover:bg-orange-600');
+            submitBtn.classList.add('bg-primary');
+            
+            // Remover botão de cancelar
+            const cancelBtn = document.getElementById('cancelarEdicao');
+            if (cancelBtn) {
+                cancelBtn.remove();
+            }
+        }
+
+        // Função para adicionar registro
+        function adicionarRegistro(registro) {
+            registros.push(registro);
+            salvarRegistros();
+            renderizarTabela();
+        }
+
+        // Função para atualizar registro
+        function atualizarRegistro(index, registro) {
+            registros[index] = registro;
+            salvarRegistros();
+            renderizarTabela();
+        }
+
+        // Função para remover registro
+        function removerRegistro(index) {
+            showConfirmDialog('Tem certeza que deseja excluir este registro?', () => {
+                registros.splice(index, 1);
+                salvarRegistros();
+                renderizarTabela();
+            });
+        }
+
+        // Função para exportar para Excel seguindo o modelo da imagem
+        function exportarParaExcel() {
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // BOM para UTF-8
+            
+            // Cabeçalho principal - centralizado
+            csvContent += ",,,Custo\n";
+            csvContent += "A presente planilha tem por objetivo quantificar o custo que tivemos no disparo aos clientes da relação. Compreendendo de fato,\n";
+            csvContent += "os custos registrados durante as campanhas.,\n";
+            csvContent += "\n";
+
+            // Garantir pelo menos 5 campanhas (preenchendo com vazias se necessário)
+            const totalCampanhas = Math.max(5, registros.length);
+
+            for (let i = 0; i < totalCampanhas; i++) {
+                const campanhaNum = String(i + 1).padStart(2, '0');
+                const registro = registros[i]; // Pode ser undefined para campanhas vazias
+
+                if (registro) {
+                    // Campanha com dados
+                    const dataFormatada = formatarData(registro.data);
+                    
+                    // Primeira linha da campanha
+                    csvContent += `Campanha ${campanhaNum},${dataFormatada},`;
+                    
+                    // Horários
+                    if (registro.horaInicio && registro.horaFim) {
+                        csvContent += `${registro.horaInicio},Disparo,Efetivo,Retorno (qtd. / %)\n`;
+                        csvContent += `,,${registro.horaFim},${registro.disparo},${registro.efetivo},${registro.retorno},${registro.retornoPercentual.toFixed(2)}%\n`;
+                    } else if (registro.horaInicio) {
+                        csvContent += `${registro.horaInicio},Disparo,Efetivo,Retorno (qtd. / %)\n`;
+                        csvContent += `,,,${registro.disparo},${registro.efetivo},${registro.retorno},${registro.retornoPercentual.toFixed(2)}%\n`;
+                    } else if (registro.horaFim) {
+                        csvContent += `${registro.horaFim},Disparo,Efetivo,Retorno (qtd. / %)\n`;
+                        csvContent += `,,,${registro.disparo},${registro.efetivo},${registro.retorno},${registro.retornoPercentual.toFixed(2)}%\n`;
+                    } else {
+                        csvContent += `Manhã,Disparo,Efetivo,Retorno (qtd. / %)\n`;
+                        csvContent += `,"00:00:00",,${registro.disparo},${registro.efetivo},${registro.retorno},${registro.retornoPercentual.toFixed(2)}%\n`;
+                    }
+                    
+                    // Linha do template marketing
+                    csvContent += `,Template Marketing (0\\,0625),Dólar,R$ ${registro.valorDolar.toFixed(2)},Custo,R$ ${registro.custo.toFixed(2)}\n`;
+                    
+                } else {
+                    // Campanha vazia
+                    csvContent += `Campanha ${campanhaNum},Data,Manhã,Disparo,Efetivo,Retorno (qtd. / %)\n`;
+                    csvContent += `,,00:00:00,0,0,0,#DIV/0!\n`;
+                    csvContent += `,Template Marketing (0\\,0625),Dólar,,Custo,R$\n`;
+                }
+                
+                // Linha em branco entre campanhas (exceto a última)
+                if (i < totalCampanhas - 1) {
+                    csvContent += "\n";
+                }
+            }
+
+            // Criar e baixar o arquivo
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Custo_Campanhas_Marketing_${new Date().toLocaleDateString('pt-BR').replace(/\//g, '_')}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            if (registros.length === 0) {
+                mostrarNotificacao('Planilha modelo exportada (sem dados)!', 'info');
+            } else {
+                mostrarNotificacao('Planilha exportada com sucesso!', 'info');
+            }
+        }
+
+        // Função para renderizar tabela
+        function renderizarTabela() {
+            const tbody = document.getElementById('tabelaRegistros');
+            const estadoVazio = document.getElementById('estadoVazio');
+            
+            if (registros.length === 0) {
+                tbody.innerHTML = '';
+                estadoVazio.style.display = 'block';
+                return;
+            }
+            
+            estadoVazio.style.display = 'none';
+            
+            tbody.innerHTML = registros.map((registro, index) => `
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150">
+                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                        ${formatarData(registro.data)}
+                    </td>
+                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                        ${(() => {
+                            const hora1 = registro.horaInicio;
+                            const hora2 = registro.horaFim;
+                            
+                            if (hora1 && hora2) {
+                                return `1º: ${hora1} | 2º: ${hora2}`;
+                            } else if (hora1 && !hora2) {
+                                return `1º Disparo - ${hora1}`;
+                            } else if (!hora1 && hora2) {
+                                return `2º Disparo - ${hora2}`;
+                            } else {
+                                return '<span class="text-gray-400">Não informado</span>';
+                            }
+                        })()}
+                    </td>
+                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                        ${registro.disparo.toLocaleString()}
+                    </td>
+                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                        ${registro.efetivo.toLocaleString()}
+                    </td>
+                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                        ${registro.retorno.toLocaleString()}
+                    </td>
+                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                        ${registro.retornoPercentual.toFixed(2)}%
+                    </td>
+                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                        R$ ${registro.valorDolar.toFixed(4).replace('.', ',')}
+                    </td>
+                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                        R$ ${registro.custo.toFixed(2).replace('.', ',')}
+                    </td>
+                    <td class="px-4 py-4 whitespace-nowrap text-sm">
+                        <div class="flex space-x-2">
+                            <button 
+                                onclick="editarRegistro(${index})"
+                                class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200"
+                            >
+                                Editar
+                            </button>
+                            <button 
+                                onclick="removerRegistro(${index})"
+                                class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-200"
+                            >
+                                Excluir
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Event listener para o formulário
+        document.getElementById('cadastroForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (valorDolarAtual === 0) {
+                mostrarNotificacao('Aguarde a cotação do dólar ser carregada', 'warning');
+                return;
+            }
+            
+            const data = document.getElementById('data').value;
+            const horaInicio = document.getElementById('horaInicio').value;
+            const horaFim = document.getElementById('horaFim').value;
+            const disparo = parseInt(document.getElementById('disparo').value) || 0; // Valor padrão 0 se vazio
+            const efetivo = parseInt(document.getElementById('efetivo').value);
+            const retorno = parseInt(document.getElementById('retorno').value) || 0; // Valor padrão 0 se vazio
+            
+            const retornoPercentual = calcularRetornoPercentual(efetivo, retorno);
+            const custo = calcularCusto(efetivo, valorDolarAtual);
+            
+            const registro = {
+                data,
+                horaInicio,
+                horaFim,
+                disparo,
+                efetivo,
+                retorno,
+                retornoPercentual,
+                valorDolar: valorDolarAtual,
+                custo
+            };
+            
+            if (editandoIndex >= 0) {
+                // Modo edição
+                atualizarRegistro(editandoIndex, registro);
+                cancelarEdicao(); // Resetar o formulário após editar
+                mostrarNotificacao('Registro atualizado com sucesso!', 'info');
+            } else {
+                // Modo cadastro
+                adicionarRegistro(registro);
+                mostrarNotificacao('Registro cadastrado com sucesso!', 'info');
+                
+                // Limpar formulário
+                this.reset();
+                
+                // Definir data atual por padrão
+                document.getElementById('data').value = new Date().toISOString().split('T')[0];
+            }
+        });
+
+        // Inicialização
+        window.addEventListener('load', function() {
+            // Definir data atual por padrão
+            document.getElementById('data').value = new Date().toISOString().split('T')[0];
+            
+            // Carregar registros salvos do localStorage
+            carregarRegistros();
+            
+            // Carregar cotação do dólar
+            atualizarDolar();
+            
+            // Renderizar estado inicial (se não houver registros salvos)
+            if (registros.length === 0) {
+                renderizarTabela();
+            }
+        });
+    </script>
+</body>
+</html>
