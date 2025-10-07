@@ -59,14 +59,6 @@ O sistema está em **fase de implementação**, com novas funcionalidades sendo 
 </p>
 
 ---
-```text
-📁 sistema-cadastro-marketing/
-│
-├── index.html         # Página principal com todo o código do sistema
-├── README.md          # Este arquivo
-└── (scripts embutidos no HTML)
-```
----
 
 ## 🔮 Futuras Implementações
 - Integração com **Google Sheets ou Firebase**  
@@ -108,4 +100,10 @@ Créditos de autoria devem ser mantidos.
 </p>
 
 ## 🧩 Estrutura do Projeto
+```text
+📁 sistema-cadastro-marketing/
+│
+├── index.html         # Página principal com todo o código do sistema
+├── README.md          # Este arquivo
+└── (scripts embutidos no HTML)
 
