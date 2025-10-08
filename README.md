@@ -4,7 +4,7 @@
   <img src="https://cdn-icons-png.flaticon.com/512/2721/2721298.png" alt="Web Development Icon" width="100"/>
 </p>
 
-Este projeto é um **sistema web para controle e registro de campanhas de marketing**, desenvolvido com **HTML, Tailwind CSS e JavaScript puro**.  
+Este projeto é um **sistema web para controle e registro de campanhas de cobrança**, desenvolvido com **HTML, Tailwind CSS e JavaScript puro**.  
 O sistema está em **fase de implementação**, com novas funcionalidades sendo adicionadas gradualmente.
 
 > 🛠️ **Status:** Em desenvolvimento
