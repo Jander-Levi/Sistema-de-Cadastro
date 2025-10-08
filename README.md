@@ -1,4 +1,4 @@
-# 🌐 Sistema de Cadastro - Marketing
+# 🌐 Sistema de Cadastro - Campanha de Cobrança
 
 <p align="center">
   <img src="https://cdn-icons-png.flaticon.com/512/2721/2721298.png" alt="Web Development Icon" width="100"/>
